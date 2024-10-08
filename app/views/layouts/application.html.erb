@@ -6,11 +6,52 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+  <header>
+    <% if user_signed_in? %>
+<a class="navbar-brand" href="/"><span>Bookers</span></a>
+      <li>
+        <%= link_to "Home", user_path(current_user) %>
+      </li>    
+      <li>
+        <%= link_to "Users", users_path %>
+      </li>    
+      <li>
+        <%= link_to "Books", books_path %>
+      </li>
+      <li>
+        <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+      </li>
+    <% else %>
+<a class="navbar-brand" href="/"><span>Bookers</span></a>
+      <li>
+        <%= link_to "Home", '/' %>
+      </li>
+      <li>
+       <a href="/homes/about">About</a>
+      </li>
+      <li>
+        <%= link_to "Sign up", new_user_registration_path %>
+      </li>
+      <li>
+        <%= link_to "Log in", new_user_session_path %>
+      </li>
+    <% end %>
+  </header>
     <%= yield %>
   </body>
+<footer>
+  <div>
+    <div>
+      <div>
+        <p>CopyRight Infratop.inc</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </html>
