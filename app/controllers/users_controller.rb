@@ -3,10 +3,12 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all  # ユーザーの全てのレコードを取得
+    @book_detail = Book.new
   end
 
   def show
     @user = User.find(params[:id])  # 特定のユーザーを取得
+    @book_detail = Book.new
   end
 
   def edit

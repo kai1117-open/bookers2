@@ -23,6 +23,35 @@ end
 
 
 
+def show
+
+  @book = Book.find(params[:id])
+  @book_detail = Book.new
+end
+
+
+def edit
+  @book = Book.find(params[:id])
+end
+
+def update
+    @book = Book.find(params[:id]) # 更新する本を再度取得
+
+    if @book.update(book_params)
+      flash[:success] = "Book successfully updated."
+      redirect_to @book # 編集した本の詳細ページにリダイレクト
+    else
+      flash[:error] = "Error updating the book."
+      render :edit # 編集画面に戻る
+    end
+end
+
+def destroy
+  book = Book.find(params[:id])
+  book.destroy
+  redirect_to books_path 
+end
+
   private
 
    def book_params

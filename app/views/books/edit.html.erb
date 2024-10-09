@@ -1,0 +1,29 @@
+<main>
+  <p id="notice"></p>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+        <h1>Editing Book</h1>
+        
+        <%= form_with model: @book, local: true do |form| %>  <!-- local: trueを追加 -->
+          <div class="form-group">
+              <%= form.label :title, "Title", for: "book_title" %>
+              <%= form.text_field :title, class: "form-control book_title" %>
+          </div>
+          
+          <div class="form-group">
+              <%= form.label :body, "Opinion", for: "book_opinion" %>
+              <%= form.text_area :body, class: "form-control book_body" %>
+          </div>
+          
+          <div class="form-group">
+            <%= form.submit "Update Book", class: "btn btn-success", data: { disable_with: "Updating..." } %> <!-- form.submitを使用 -->
+          </div>
+        <% end %>  <!-- form_withの終了 -->
+
+        <%= link_to("Show", book_path(@book)) %> |
+        <%= link_to("Back", books_path, class: "back") %>
+      </div>
+    </div>
+  </div>
+</main>
