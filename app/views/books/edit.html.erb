@@ -1,11 +1,22 @@
 <main>
-  <p id="notice"></p>
   <div class="container">
     <div class="row">
       <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
         <h1>Editing Book</h1>
         
-        <%= form_with model: @book, local: true do |form| %>  <!-- local: trueを追加 -->
+                   <% if @book.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@book.errors.count, "error") %> prohibited this book from being saved:</h2>
+    <ul>
+    <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+        
+        
+        <%= form_with model: @book, local: true do |form| %> 
           <div class="form-group">
               <%= form.label :title, "Title", for: "book_title" %>
               <%= form.text_field :title, class: "form-control book_title" %>
@@ -17,9 +28,9 @@
           </div>
           
           <div class="form-group">
-            <%= form.submit "Update Book", class: "btn btn-success", data: { disable_with: "Updating..." } %> <!-- form.submitを使用 -->
+            <%= form.submit "Update Book", class: "btn btn-success", data: { disable_with: "Updating..." } %> 
           </div>
-        <% end %>  <!-- form_withの終了 -->
+        <% end %> 
 
         <%= link_to("Show", book_path(@book)) %> |
         <%= link_to("Back", books_path, class: "back") %>

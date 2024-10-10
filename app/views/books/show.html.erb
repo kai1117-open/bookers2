@@ -9,39 +9,39 @@
       </div>
   
   
-      <div class="col-md-8">
+      <div class="col-md-8 offset-md-1">
 <div class="col-md-8 offset-md-1">
   <h2>Book detail</h2>
   <table class="table">
     <tbody>
       <tr>
-        <td>
-          <a href="/users/<%= @book.user.id %>"> <!-- @bookに変更: インスタンス変数を参照 -->
-            <% if @book.user.profile_image.attached? %> <!-- profile_imageが添付されているか確認 -->
-              <%= image_tag @book.user.profile_image %> <!-- 画像がある場合のみ表示 -->
-            <% else %>
-              <%= image_tag "default-profile.jpg" %>
-            <% end %>
+        <td class="books-users-image-column">
+          <a href="/users/<%= @book.user.id %>"> 
+              <% if @book.user.profile_image.attached? %> 
+                <%= image_tag @book.user.profile_image.variant(resize_to_fill: [80, 80]), alt: "User Profile Picture" %>
+              <% else %>
+                <%= image_tag "default-profile.jpg", size: "80x80" %>
+              <% end %>
             <br>
-            <%= @book.user.name %> <!-- @bookに変更: インスタンス変数を参照 -->
+            <%= @book.user.name %> 
           </a>
         </td>
         
-        <td><a href="<%= book_path(@book) %>"><%= @book.title %></a></td>
-        <!-- @bookに変更: インスタンス変数を参照 -->
+        <td class="books-title-column"><a href="<%= book_path(@book) %>"><%= @book.title %></a></td>
+
         <td><%= @book.body %></td>
-        <!-- @bookに変更: インスタンス変数を参照 -->
-        <td>
+        <% if current_user == @book.user %>
+        <td class="books-action-column">
           <%= link_to 'Edit', edit_book_path(@book), class: 'btn btn-sm btn-success' %> 
         </td>
-        
-        <td>
+
+        <td class="books-action-column">
           <%= link_to 'Destroy', book_path(@book), 
           method: :delete, 
           data: { confirm: '本当に消しますか？' }, 
           class: 'btn btn-sm btn-danger destroy_book_' %>
         </td>
-        
+        <% end %>
       </tr>
     </tbody>
   </table>

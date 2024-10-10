@@ -4,13 +4,48 @@
       <div class="col-md-3">
   <%= render "layouts/sub", book: @book_detail %>
     </div>
-  
-  
-      <div class="col-md-8">
 
-user show
+
+      <div class="col-md-8 offset-md-1">
+                <h2>Books</h2>
+                <table class="table table-hover table-inverse">
+                  <thead>
+                    <tr>
+                      <th class="book-user-image-column"></th>
+                      <th class="book-title-column">Title</th>
+                      <th class="book-body-column">Opinion</th>
+                    </tr>
+
+                  </thead>
+
+                  <tbody>
+
+                    <% @user.books.each do |book| %>
+                      <tr>
+
+                        <td class="book-user-image-column">
+                        　　　<% if book.user.profile_image.attached? %> <!-- プロフィール画像が添付されているか確認 -->
+                                <%= image_tag book.user.profile_image.variant(resize_to_fill: [80, 80]), class: "img-thumbnail", alt: "User Profile Picture" %>
+                              <% else %>
+                                <%= image_tag "default-profile.jpg", size: "80x80" %> <!-- デフォルト画像を表示 -->
+                            <% end %>
+                        </td>
+
+                        <td class="book-title-column">
+                            <%= link_to book.title, book_path(book) %>
+                        </td>
+
+                        <td class="book-body-column">
+                            <%= book.body %>
+                        </td>
+
+                      </tr>
+                    <% end %>
+
+                  </tbody>
+                </table>
       </div>
-      
+
     </div>
   </div>
 </main>
