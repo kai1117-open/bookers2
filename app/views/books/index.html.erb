@@ -1,110 +1,102 @@
 <main>
-
- <div class="container px-5 px-sm-0">
-           <% if @book.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@book.errors.count, "error") %> prohibited this book from being saved:</h2>
-    <ul>
-    <% @book.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-    </ul>
-  </div>
-<% end %>
-    <div class="row">
-      
-      <div class="col-md-3">
-        
-      <h2>User info</h2>
-          <% if current_user && current_user.profile_image.attached? %>
-              <%= image_tag current_user.profile_image.variant(resize_to_fill: [262, 262]), class: "img-thumbnail", alt: "User Profile Picture" %>
-          <% else %>
-              <%= image_tag "default-profile.jpg" , size: "262x262"%> <!-- デフォルト画像 -->
+  <div class="container px-5 px-sm-0">
+    <% if @book.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@book.errors.count, "error") %> prohibited this book from being saved:</h2>
+        <ul>
+          <% @book.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
           <% end %>
-      <table class="table">
-        <tbody>
-          <tr></tr>
-          <tr>
-            <th>name</th>
-            <th class="intro-box"><%= current_user.name %></th>
-          </tr>
-          <tr>
-            <th>introduction</th>
-            <th class="intro-box"><%= current_user.introduction %></th>
-          </tr>
-        </tbody>
-      </table>
-      
-      <div class="row">
-        <a class="btn btn-outline-secondary btn-block" href="<%= edit_user_path(current_user) %>">
-             <i class="fa-solid fa-user-gear"></i>
-        </a>
+        </ul>
       </div>
-    
-    
-      <h2 class="mt-3">New book</h2>
-      
+    <% end %>
 
-      
-            <%= form_with model: @book, local: true do |f| %>
-              <div class="form-group">
-                <label for="book_title">Title</label>
-                <%= f.text_field :title, class: "form-control", id: "book_title" %>
-              </div>
-            
-              <div class="form-group">
-                <label for="book_body">Opinion</label>
-                <%= f.text_area :body, class: "form-control", id: "book_body" %>
-              </div>
-            
-              <div class="form-group">
-                <%= f.submit 'Create Book', class: "btn btn-success" %>
-              </div>
-            <% end %>
+    <div class="row">
+      <div class="col-md-3">
+        <h2>User info</h2>
+        <% if current_user && current_user.profile_image.attached? %>
+          <%= image_tag current_user.profile_image.variant(resize_to_fill: [262, 262]), class: "img-thumbnail", alt: "User Profile Picture" %>
+        <% else %>
+          <%= image_tag "default-profile.jpg", size: "262x262" %>
+        <% end %>
 
-    </div>
-  
-  
+        <table class="table">
+          <tbody>
+            <tr></tr>
+            <tr>
+              <th>name</th>
+              <th class="intro-box"><%= current_user.name %></th>
+            </tr>
+            <tr>
+              <th>introduction</th>
+              <th class="intro-box"><%= current_user.introduction %></th>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="row">
+          <a class="btn btn-outline-secondary btn-block" href="<%= edit_user_path(current_user) %>">
+            <i class="fa-solid fa-user-gear"></i>
+          </a>
+        </div>
+
+        <h2 class="mt-3">New book</h2>
+
+        <%= form_with model: @book, local: true do |f| %>
+          <div class="form-group">
+            <label for="book_title">Title</label>
+            <%= f.text_field :title, class: "form-control", id: "book_title" %>
+          </div>
+
+          <div class="form-group">
+            <label for="book_body">Opinion</label>
+            <%= f.text_area :body, class: "form-control", id: "book_body" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.submit 'Create Book', class: "btn btn-success" %>
+          </div>
+        <% end %>
+      </div>
+
       <div class="col-md-8 offset-md-1">
-                <h2>Books</h2>
-                <table class="table table-hover table-inverse">
-                  <thead>
-                    <tr>
-                      <th class="book-user-image-column"></th>
-                      <th class="book-title-column">Title</th>
-                      <th class="book-body-column">Opinion</th>
-                    </tr>
-                    
-                  </thead>
-                  
-                  <tbody>
-                    
-                    <% @books.each do |book| %>
-                      <tr>
-                        
-                        <td class="book-user-image-column">
-                        　　　<% if book.user.profile_image.attached? %> <!-- プロフィール画像が添付されているか確認 -->
-                                <%= image_tag book.user.profile_image.variant(resize_to_fill: [80, 80]), class: "img-thumbnail", alt: "User Profile Picture" %>
-                              <% else %>
-                                <%= image_tag "default-profile.jpg", size: "80x80" %> <!-- デフォルト画像を表示 -->
-                            <% end %>
-                        </td>
-                        
-                        <td class="book-title-column">
-                            <%= link_to book.title, book_path(book) %>
-                        </td>
-                        
-                        <td class="book-body-column">
-                            <%= book.body %>
-                        </td>
-                        
-                      </tr>
-                    <% end %>
-                    
-                  </tbody>
-                </table>
-</div>
-      
+        <h2>Books</h2>
+        <table class="table table-hover table-inverse">
+          <thead>
+            <tr>
+              <th class="book-user-image-column"></th>
+              <th class="book-title-column">Title</th>
+              <th class="book-body-column">Opinion</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @books.each do |book| %>
+              <tr>
+                
+                <td class="book-user-image-column">
+                  <a href="/users/<%= book.user.id %>">
+                  <% if book.user.profile_image.attached? %>
+                    <%= image_tag book.user.profile_image.variant(resize_to_fill: [80, 80]), class: "img-thumbnail", alt: "User Profile Picture" %>
+                  <% else %>
+                    <%= image_tag "default-profile.jpg", size: "80x80" %>
+                  <% end %>
+                  </a>
+                </td>
+
+                <td class="book-title-column">
+                  <%= link_to book.title, book_path(book) %>
+                </td>
+
+                <td class="book-body-column">
+                  <%= book.body %>
+                </td>
+                
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </main>

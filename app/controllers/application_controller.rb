@@ -1,14 +1,15 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!, except: [:top]
+  before_action :authenticate_user!, except: [:top, :about]
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_book  # 追加: 全てのページでフォームが使えるようにする
 
+  
   def after_sign_in_path_for(resource)
-    user_path(resource)
+    user_path(resource) # ログインしたユーザの詳細画面にリダイレクト
   end
-
-  def after_sign_out_path_for(resource)
-    '/'
+  
+  def after_sign_out_path_for(_resource)
+    root_path  # ルートパスにリダイレクト
   end
 
   protected

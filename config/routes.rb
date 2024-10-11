@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  root to: "homes#top"
-  get 'homes/about', to: 'homes#about'
+  root to: "home#top"  # homesからhomeに変更
+  get 'home/about', to: 'home#about'
 
-  devise_for :users
+  devise_for :users, controllers: { sessions: 'users/sessions' }
   resources :books
-  resources :users # これで全てのアクションが有効になる
+  resources :users
 end

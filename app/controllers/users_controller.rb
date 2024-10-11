@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   user = User.find(params[:id])
   unless user.id == current_user.id
     flash[:notice] = "ID does not match."
-    redirect_to users_path
+    redirect_to user_path(current_user)
   end
     
     @user = User.find(params[:id])  # 編集するユーザーを取得
@@ -32,6 +32,9 @@ class UsersController < ApplicationController
       render :edit                    # エラーがあれば編集ページを再表示
     end
   end
+  
+  private
+  
   
   def user_params
     params.require(:user).permit(:name, :profile_image, :introduction) # ここで許可する属性を指定
